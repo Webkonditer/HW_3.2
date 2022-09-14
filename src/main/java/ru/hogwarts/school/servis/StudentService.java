@@ -14,8 +14,8 @@ public class StudentService {
     private Long generatedStudentId = 1L;
 
     public Student createStudent(Student student) {
-        students.put(generatedStudentId, student);
-        generatedStudentId++;
+        student.setId(generatedStudentId++);
+        students.put(student.getId(), student);
         return student;
     }
 
@@ -23,8 +23,8 @@ public class StudentService {
         return students.get(studentId);
     }
 
-    public Student updateStudent(Long userId, Student student) {
-        students.put(generatedStudentId, student);
+    public Student updateStudent(Long studentId, Student student) {
+        students.put(studentId, student);
         return student;
     }
 

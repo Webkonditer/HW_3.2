@@ -6,6 +6,7 @@ import ru.hogwarts.school.model.Faculty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,8 +16,8 @@ public class FacultyService {
     private Long generatedFacultyId = 1L;
 
     public Faculty createFaculty(Faculty faculty) {
-        faculties.put(generatedFacultyId, faculty);
-        generatedFacultyId++;
+        faculty.setId(generatedFacultyId++);
+        faculties.put(faculty.getId(), faculty);
         return faculty;
     }
 
@@ -25,7 +26,7 @@ public class FacultyService {
     }
 
     public Faculty updateFaculty(Long facultyId, Faculty faculty) {
-        faculties.put(generatedFacultyId, faculty);
+        faculties.put(facultyId, faculty);
         return faculty;
     }
 
@@ -35,7 +36,7 @@ public class FacultyService {
 
     public List getFacultiesByColor(String facultyColor) {
         return faculties.entrySet().stream()
-                .filter(e -> e.getValue().getColor() == facultyColor)
+                .filter(e -> Objects.equals(e.getValue().getColor(), facultyColor))
                 .collect(Collectors.toList());
     }
 }
