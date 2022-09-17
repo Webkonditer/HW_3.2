@@ -36,4 +36,9 @@ public class FacultyService {
     public List getFacultiesByColor(String facultyColor) {
         return  facultyRepository.findByColor(facultyColor);
     }
+
+    public List getFacultiesByNameOrColor(String name, String color) {
+        return  facultyRepository.findByNameOrColorIgnoreCase(name, color);
+    }
+
 }
