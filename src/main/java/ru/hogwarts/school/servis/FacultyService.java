@@ -5,8 +5,10 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -40,12 +42,17 @@ public class FacultyService {
     }
 
     public List getFacultiesByNameOrColor(String name, String color) {
-        return  facultyRepository.findByNameOrColorIgnoreCase(name, color);
+        return  facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
     }
 
     public Set<Student> getFaciltyStudents(Long facultyId) {
-        Faculty sFaculty = facultyRepository.findById(facultyId).get();
-        return sFaculty.getStudents();
+        try {
+            Faculty sFaculty = facultyRepository.findById(facultyId).get();
+            return sFaculty.getStudents();
+        } catch(Exception e){
+            return null;
+        }
+
     }
 
 }
