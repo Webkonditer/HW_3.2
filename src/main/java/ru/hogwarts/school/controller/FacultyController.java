@@ -51,12 +51,9 @@ public class FacultyController {
         return facultyService.getFacultiesByColor(facultyColor);
     }
 
-    @GetMapping("find/")
-    public List getStudentsByNameOrColor(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String color)
-    {
-        return facultyService.getFacultiesByNameOrColor(name, color);
+    @GetMapping("/find")
+    public List getStudentsByNameOrColor(@RequestParam String nameOrColor) {
+        return facultyService.getFacultiesByNameOrColor(nameOrColor, nameOrColor);
     }
 
     @GetMapping("/{facultyId}/students")
