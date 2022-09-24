@@ -20,7 +20,12 @@ public class StudentService {
     }
 
     public Student getStudentById(Long studentId) {
-        return studentRepository.findById(studentId).get();
+        try {
+            return studentRepository.findById(studentId).get();
+        } catch(Exception e){
+            return null;
+        }
+
     }
 
     public Student updateStudent(Student student) {
