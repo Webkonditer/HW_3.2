@@ -52,7 +52,7 @@ public class FacultyController {
     }
 
     @GetMapping("/find")
-    public List getStudentsByNameOrColor(@RequestParam String nameOrColor) {
+    public List getFacultyByNameOrColor(@RequestParam String nameOrColor) {
         return facultyService.getFacultiesByNameOrColor(nameOrColor, nameOrColor);
     }
 

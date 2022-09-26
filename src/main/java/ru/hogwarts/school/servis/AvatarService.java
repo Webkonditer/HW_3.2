@@ -81,6 +81,13 @@ public class AvatarService {
         } else{
             return new Avatar();
         }
+    }
+
+    public void deleteAvatar(Long studentId) {
+        Avatar newAvatar = avatarRepository.findByStudentId(studentId);
+        if(newAvatar != null){
+            avatarRepository.deleteById(newAvatar.getId());
+        }
 
     }
 }

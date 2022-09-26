@@ -53,4 +53,10 @@ public class AvatarController {
             is.transferTo(os);
         }
     }
+
+    @DeleteMapping("delete/{studentId}")
+    public ResponseEntity deleteStudent(@PathVariable Long studentId) {
+        avatarService.deleteAvatar(studentId);
+        return ResponseEntity.ok().build();
+    }
 }

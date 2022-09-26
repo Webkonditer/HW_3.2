@@ -3,6 +3,7 @@ package ru.hogwarts.school.servis;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.AvatarRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.List;
@@ -11,8 +12,11 @@ import java.util.List;
 public class StudentService {
     private final StudentRepository studentRepository;
 
-    public StudentService(StudentRepository studentRepository) {
+    private final AvatarService avatarService;
+
+    public StudentService(StudentRepository studentRepository, AvatarService avatarService) {
         this.studentRepository = studentRepository;
+        this.avatarService = avatarService;
     }
 
     public Student createStudent(Student student) {
@@ -20,7 +24,12 @@ public class StudentService {
     }
 
     public Student getStudentById(Long studentId) {
-        return studentRepository.findById(studentId).get();
+        try {
+            return studentRepository.findById(studentId).get();
+        } catch(Exception e){
+            return null;
+        }
+
     }
 
     public Student updateStudent(Student student) {
@@ -28,6 +37,7 @@ public class StudentService {
     }
 
     public void deleteStudent(Long studentId) {
+        avatarService.deleteAvatar(studentId);
         studentRepository.deleteById(studentId);
     }
 
