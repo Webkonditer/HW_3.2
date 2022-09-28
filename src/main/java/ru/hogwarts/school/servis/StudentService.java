@@ -57,4 +57,16 @@ public class StudentService {
             return null;
         }
     }
+
+    public Long getStudentsCount() {
+        return  studentRepository.getStudentsCount();
+    }
+
+    public int getStudentsaverageAge() {
+        return  studentRepository.getStudentsAverageAge();
+    }
+
+    public List<Student> getLastFiveStudents() {
+        return  studentRepository.getLastFiveStudents();
+    }
 }

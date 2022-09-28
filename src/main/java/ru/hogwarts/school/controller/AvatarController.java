@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 
 @RequestMapping("avatar")
 @RestController
@@ -58,5 +59,10 @@ public class AvatarController {
     public ResponseEntity deleteStudent(@PathVariable Long studentId) {
         avatarService.deleteAvatar(studentId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<Collection<Avatar>> getAll(@RequestParam("page") Integer pageNamber, @RequestParam("size") Integer pageSize){
+        return avatarService.getAll(pageNamber, pageSize);
     }
 }
