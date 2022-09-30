@@ -1,5 +1,7 @@
-package ru.hogwarts.school.servis;
+package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 public class AvatarService {
 
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     private StudentRepository studentRepository;
     private AvatarRepository avatarRepository;
 
@@ -35,6 +39,7 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.debug("The {} method was called.", "uploadAvatar");
         Student student = studentRepository.getById(studentId);
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
@@ -57,6 +62,7 @@ public class AvatarService {
     }
 
     private byte[] generateImagePriviev(Path filePath) throws IOException{
+        logger.debug("The {} method was called.", "generateImagePriviev");
         try (
                 InputStream is = Files.newInputStream(filePath);
                 BufferedInputStream bis = new BufferedInputStream(is, 1024);
@@ -79,6 +85,7 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long studentId){
+        logger.debug("The {} method was called.", "findAvatar");
         if(avatarRepository.findByStudentId(studentId) != null){
             return avatarRepository.findByStudentId(studentId);
         } else{
@@ -87,14 +94,15 @@ public class AvatarService {
     }
 
     public void deleteAvatar(Long studentId) {
+        logger.debug("The {} method was called.", "deleteAvatar");
         Avatar newAvatar = avatarRepository.findByStudentId(studentId);
         if(newAvatar != null){
             avatarRepository.deleteById(newAvatar.getId());
         }
-
     }
 
     public ResponseEntity<Collection<Avatar>> getAll(Integer pageNamber, Integer pageSize){
+        logger.debug("The {} method was called.", "getAllAvatars");
         PageRequest pageRequest = PageRequest.of(pageNamber - 1, pageSize);
         Collection<Avatar> avatarCollection = avatarRepository.findAll(pageRequest).getContent();
         if(avatarCollection.isEmpty()){

@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.servis.FacultyService;
+import ru.hogwarts.school.service.FacultyService;
 
 import java.util.List;
 import java.util.Set;
@@ -58,7 +58,7 @@ public class FacultyController {
 
     @GetMapping("/{facultyId}/students")
     public Set<Student> getFacultyStudents(@PathVariable Long facultyId) {
-        return facultyService.getFaciltyStudents(facultyId);
+        return facultyService.getFacultyStudents(facultyId);
     }
 
 }
