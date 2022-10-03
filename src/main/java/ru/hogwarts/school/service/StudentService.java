@@ -8,6 +8,8 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StudentService {
@@ -82,5 +84,33 @@ public class StudentService {
     public List<Student> getLastFiveStudents() {
         logger.debug("The getLastFiveStudents method was called.");
         return  studentRepository.getLastFiveStudents();
+    }
+
+    public List<String> getStudentsByLetter(String letter) {
+        return studentRepository.findAll().stream()
+                                .map(s -> s.getName().toLowerCase())
+                                .filter(n -> n.startsWith(letter.toLowerCase()))
+                                .map(String::toUpperCase)
+                                .sorted()
+                                .collect(Collectors.toList());
+    }
+
+    public double getAverageStudentsAge() {
+        return studentRepository.findAll().stream()
+                                .mapToInt(Student::getAge)
+                                .average().orElse(0);
+    }
+
+    public String mathFunction() {
+        long start = System.currentTimeMillis();
+        Integer rezult = Stream.iterate(1, a -> a +1) .limit(1_000_000) .reduce(0, (a, b) -> a + b );
+        long executionTime = System.currentTimeMillis() - start;
+
+        long start2 = System.currentTimeMillis();
+        Integer rezult2 = Stream.iterate(1, a -> a +1) .parallel() .limit(1_000_000) .reduce(0, (a, b) -> a + b );
+        long executionTime2 = System.currentTimeMillis() - start2;
+
+        return "Ответ: " + rezult + " Время без запараллеливания: " + executionTime  + " , Время с запараллеливанием: " + executionTime2;
+
     }
 }
