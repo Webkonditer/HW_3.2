@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import org.apache.logging.log4j.util.PropertySource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -59,5 +61,11 @@ public class FacultyService {
         } catch(Exception e){
             return null;
         }
+    }
+
+    public String getLongestFacultyName() {
+        return  facultyRepository.findAll().stream()
+                .map(Faculty::getName)
+                .max(Comparator.comparingInt(String::length)).orElse("Faculties not found");
     }
 }
