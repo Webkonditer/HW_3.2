@@ -113,4 +113,58 @@ public class StudentService {
         return "Ответ: " + rezult + " Время без запараллеливания: " + executionTime  + " , Время с запараллеливанием: " + executionTime2;
 
     }
+
+    public void threadFunction() {
+        List<String> studentNames = studentRepository.findAll().stream().map(Student::getName).toList();
+        System.out.println(studentNames);
+
+        printName(studentNames, 0);
+        printName(studentNames, 1);
+
+        new Thread(() -> {
+            printName(studentNames, 2);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            printName(studentNames, 3);
+        }).start();
+
+        new Thread(() -> {
+            printName(studentNames, 4);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            printName(studentNames, 5);
+        }).start();
+
+    }
+
+    private void printName(List studentNames, int id){
+        System.out.println(studentNames.get(id));
+    }
+
+    public void threadSynchronizedFunction() {
+        List<String> studentNames = studentRepository.findAll().stream().map(Student::getName).toList();
+        System.out.println(studentNames);
+
+        printNameSynchronized(studentNames, 0);
+        printNameSynchronized(studentNames, 1);
+
+        new Thread(() -> {
+            printNameSynchronized(studentNames, 2);
+            printNameSynchronized(studentNames, 3);
+        }).start();
+
+        new Thread(() -> {
+            printNameSynchronized(studentNames, 4);
+            printNameSynchronized(studentNames, 5);
+        }).start();
+    }
+    private synchronized void printNameSynchronized(List studentNames, int id){
+        System.out.println(studentNames.get(id));
+    }
 }
