@@ -89,4 +89,14 @@ public class StudentController {
         return ResponseEntity.ok(studentService.mathFunction());
     }
 
+    @GetMapping("/thread")
+    public void threadFunction() {
+        studentService.threadFunction();
+    }
+
+    @GetMapping("/thread-synchronized")
+    public void threadSynchronizedFunction() {
+        studentService.threadSynchronizedFunction();
+    }
+
 }
